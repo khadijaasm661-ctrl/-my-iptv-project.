@@ -5,27 +5,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          java-package: jdk
 
-      - name: Setup Gradle
+      - name: Generate Wrapper and Build
         run: |
-          # تثبيت نظام بناء Gradle
-          sudo apt-get update
-          sudo apt-get install -y gradle
-          # توليد ملف المساعدة gradlew إذا كان مفقوداً
+          # توليد نسخة متوافقة من gradlew
           gradle wrapper
           chmod +x gradlew
-
-      - name: Build APK
-        # بناء التطبيق داخل مجلد app تحديداً
-        run: ./gradlew :app:assembleDebug
+          # بناء التطبيق
+          ./gradlew :app:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
