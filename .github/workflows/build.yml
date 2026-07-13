@@ -16,9 +16,14 @@ jobs:
       - name: Install Gradle
         run: sudo apt-get update && sudo apt-get install -y gradle
 
+      - name: Generate Gradle Wrapper
+        run: gradle wrapper
+
+      - name: Make executable
+        run: chmod +x gradlew
+
       - name: Build with Gradle
-        # قمنا بتعديل هذا السطر ليقوم بالبناء داخل مجلد app مباشرة
-        run: gradle :app:assembleDebug
+        run: ./gradlew :app:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
