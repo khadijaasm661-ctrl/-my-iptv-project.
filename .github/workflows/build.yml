@@ -17,7 +17,8 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gradle
 
       - name: Build with Gradle
-        run: gradle assembleDebug
+        # قمنا بتعديل هذا السطر ليقوم بالبناء داخل مجلد app مباشرة
+        run: gradle :app:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
