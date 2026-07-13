@@ -1,0 +1,30 @@
+name: Build Android APK
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Unzip project
+        run: unzip -q "iptv-player (2).zip" -d .
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build with Gradle
+        run: |
+          # العثور على ملف البناء والبدء
+          GRADLEW=$(find . -name "gradlew" -type f | head -n 1)
+          chmod +x "$GRADLEW"
+          ./"$GRADLEW" assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: My-IPTV-App
+          path: "**/*.apk"
